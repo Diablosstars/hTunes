@@ -104,7 +104,7 @@ namespace hTunes
                 Filename = filename
             };
 
-            GetSongData(s);
+            //GetSongData(s);
 
             AddSong(s);
             return s;
