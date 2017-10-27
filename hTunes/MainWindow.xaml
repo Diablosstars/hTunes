@@ -41,7 +41,7 @@
         <DataGrid Name="songGrid" SelectionMode="Single" AutoGenerateColumns="False" CanUserAddRows="False" Margin="116,40,10,34" Loaded="LoadGrid">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <Menu >
+                    <Menu>
                         <MenuItem Header="Play" Click="Play_Song" HorizontalAlignment="Left"/>
                         <MenuItem Header="Delete" Click="Delete_Song" HorizontalAlignment="Left"/>
                     </Menu>
@@ -56,12 +56,20 @@
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <Border Background="AliceBlue">
-                        <StackPanel Orientation="Vertical" >
-                            <!-- https://stackoverflow.com/questions/7130859/adding-text-to-a-bound-textblock -->
-                            <TextBlock Text="{Binding title, StringFormat=Title: {0}}" />
-                            <TextBlock Text="{Binding artist, StringFormat=Artist: {0}}" />
-                            <TextBlock Text="{Binding length, StringFormat=Length: {0}}" />
+                        <StackPanel Orientation ="Horizontal">
                             <Image Source="{Binding albumImage}" HorizontalAlignment="Left"/>
+                            <StackPanel Orientation="Vertical">
+                                <!-- https://stackoverflow.com/questions/7130859/adding-text-to-a-bound-textblock -->
+                                <TextBlock Text="{Binding title, StringFormat=Title: {0}}" />
+                                <TextBlock Text="{Binding artist, StringFormat=Artist: {0}}" />
+                                <TextBlock Text="{Binding length, StringFormat=Length: {0}}" />
+                                <!--https://stackoverflow.com/questions/10238694/example-using-hyperlink-in-wpf-->
+                                <TextBlock>    
+                                <Hyperlink NavigateUri="{Binding url}" RequestNavigate="Hyperlink_RequestNavigate">
+                                    More Info
+                                </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

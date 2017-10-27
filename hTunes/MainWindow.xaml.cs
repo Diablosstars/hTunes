@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,6 +83,8 @@ namespace hTunes
             {
                 DataRowView currentItem = songGrid.SelectedItem as DataRowView;
                 var current = currentItem.Row.ItemArray;
+                
+                //Same method of retrieving the songID above wouldn't work for playlist songs...
                 int songID = Convert.ToInt32(current[0]);
                 int position = Convert.ToInt32(currentItem["position"]);
 
@@ -107,6 +110,12 @@ namespace hTunes
         private void Stop_Song(object sender, RoutedEventArgs e)
         {
 
+        }
+        //https://stackoverflow.com/questions/10238694/example-using-hyperlink-in-wpf
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+                Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+                e.Handled = true;
         }
     }
 }
