@@ -81,12 +81,16 @@ namespace hTunes
             else
             {
                 DataRowView currentItem = songGrid.SelectedItem as DataRowView;
+                var current = currentItem.Row.ItemArray;
+                int songID = Convert.ToInt32(current[0]);
+                int position = Convert.ToInt32(currentItem["position"]);
 
-                ////Crashes when getting songID from a song in a playlist via context menu works for removing songs from All Music
-                ////Not yet sure how to access the song_ID when accessing the listBox via playlist
-                int songID = (int)currentItem["song_id"];
-                int position = (int)currentItem["position"];
                 musicLibrary.RemoveSongFromPlaylist(position, songID, playListBox.SelectedItem.ToString());
+
+                var selectedPlaylist = playListBox.SelectedItem.ToString();
+                var songs = musicLibrary.SongsForPlaylist(selectedPlaylist);
+
+                songGrid.ItemsSource = songs.DefaultView;
             }
         }
 

@@ -57,9 +57,10 @@
                 <DataTemplate>
                     <Border Background="AliceBlue">
                         <StackPanel Orientation="Vertical" >
-                            <TextBlock Text="{Binding title}" />
-                            <TextBlock Text="{Binding artist}" />
-                            <TextBlock Text="{Binding length}" />
+                            <!-- https://stackoverflow.com/questions/7130859/adding-text-to-a-bound-textblock -->
+                            <TextBlock Text="{Binding title, StringFormat=Title: {0}}" />
+                            <TextBlock Text="{Binding artist, StringFormat=Artist: {0}}" />
+                            <TextBlock Text="{Binding length, StringFormat=Length: {0}}" />
                             <Image Source="{Binding albumImage}" HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Border>
