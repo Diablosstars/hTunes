@@ -22,6 +22,7 @@ namespace hTunes
     {
         public MainWindow()
         {
+            MusicLib musicLibrary = new MusicLib();
             InitializeComponent();
         }
 
