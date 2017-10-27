@@ -12,7 +12,7 @@
             <Button ToolTip="Open">
                 <Image Source="Open-Folder-icon.png"/>
             </Button>
-            <Button ToolTip="New Playlist">
+            <Button ToolTip="New Playlist" Click="New_Playlist">
                 <Image Source="playlist.png"/>
             </Button>
             <Separator></Separator>
@@ -38,19 +38,45 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <DataGrid Name="songGrid" SelectionMode="Single" Height="269" Margin="116,40,10,0" VerticalAlignment="Top" Loaded="LoadGrid">
+        <DataGrid Name="songGrid" SelectionMode="Single" AutoGenerateColumns="False" CanUserAddRows="False" Margin="116,40,10,34" Loaded="LoadGrid">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <Menu >
+                        <MenuItem Header="Play" Click="Play_Song" HorizontalAlignment="Left"/>
+                        <MenuItem Header="Delete" Click="Delete_Song" HorizontalAlignment="Left"/>
+                    </Menu>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding title}" Header="Title"/>
+                <DataGridTextColumn Binding="{Binding album}" Header="Album"/>
+                <DataGridTextColumn Binding="{Binding artist}" Header="Artist"/>
+                <DataGridTextColumn Binding="{Binding genre}" Header="Genre"/>
+            </DataGrid.Columns>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
                     <Border Background="AliceBlue">
                         <StackPanel Orientation="Vertical" >
-                            <TextBlock Text="{Binding title}" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding title}" />
+                            <TextBlock Text="{Binding artist}" />
+                            <TextBlock Text="{Binding length}" />
                             <Image Source="{Binding albumImage}" HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
-
         </DataGrid>
-        <ListBox  Name="playListBox" HorizontalAlignment="Left" Margin="10,40,0,10" Width="101" Loaded="LoadList" SelectionChanged="ListItemSelect"/>
+        <ListBox  Name="playListBox" HorizontalAlignment="Left" Margin="10,40,0,10" Width="101" Loaded="LoadList" SelectionChanged="ListItemSelect" SelectedIndex="0">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <Menu>
+                        <MenuItem Header="Play" Click="Play_Song"/>
+                        <MenuItem Header="Delete" Click="Delete_Song" />
+                    </Menu>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+        <Button Margin="116,0,0,2" HorizontalAlignment="Left" Width="66" Height="27" VerticalAlignment="Bottom" Click="Play_Song">Play</Button>
+        <Button Margin="187,0,0,2" HorizontalAlignment="Left" Width="66" Height="27" VerticalAlignment="Bottom" Click="Stop_Song">Stop</Button>
     </Grid>
 </Window>
