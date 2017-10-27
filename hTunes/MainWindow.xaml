@@ -38,7 +38,7 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <DataGrid Name="songGrid" SelectionMode="Single" AutoGenerateColumns="False" CanUserAddRows="False" Margin="116,40,10,34" Loaded="LoadGrid">
+        <DataGrid Name="songGrid" SelectionMode="Single" AutoGenerateColumns="False" CanUserAddRows="False" Margin="116,40,10,34" Loaded="LoadGrid" MouseMove="songGrid_MouseMove" PreviewMouseLeftButtonDown="songGrid_PreviewMouseLeftButtonDown">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <Menu>
@@ -75,12 +75,14 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
-        <ListBox  Name="playListBox" HorizontalAlignment="Left" Margin="10,40,0,10" Width="101" Loaded="LoadList" SelectionChanged="ListItemSelect" SelectedIndex="0">
+        <ListBox  Name="playListBox" HorizontalAlignment="Left" Margin="10,40,0,10" Width="101" Loaded="LoadList" 
+                  SelectionChanged="ListItemSelect" SelectedIndex="0" AllowDrop="True" Drop="playListBox_Drop" 
+                  DragOver="playListBox_DragOver">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <Menu>
-                        <MenuItem Header="Play" Click="Play_Song"/>
-                        <MenuItem Header="Delete" Click="Delete_Song" />
+                        <MenuItem Header="Rename" Click="RenamePlaylist_MenuItem"/>
+                        <MenuItem Header="Delete" Click="Delete_Song"/>
                     </Menu>
                 </ContextMenu>
             </ListBox.ContextMenu>

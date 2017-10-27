@@ -23,6 +23,7 @@ namespace hTunes
     public partial class MainWindow : Window
     {
         MusicLib musicLibrary = new MusicLib();
+        private Point startPoint;
         public MainWindow()
         {
             InitializeComponent();
@@ -83,7 +84,7 @@ namespace hTunes
             {
                 DataRowView currentItem = songGrid.SelectedItem as DataRowView;
                 var current = currentItem.Row.ItemArray;
-                
+
                 //Same method of retrieving the songID above wouldn't work for playlist songs...
                 int songID = Convert.ToInt32(current[0]);
                 int position = Convert.ToInt32(currentItem["position"]);
@@ -99,7 +100,7 @@ namespace hTunes
 
         private void Play_Song(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void New_Playlist(object sender, RoutedEventArgs e)
@@ -114,8 +115,52 @@ namespace hTunes
         //https://stackoverflow.com/questions/10238694/example-using-hyperlink-in-wpf
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-                Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
-                e.Handled = true;
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
+
+        private void RenamePlaylist_MenuItem(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void songGrid_MouseMove(object sender, MouseEventArgs e)
+        {
+            //Get the current mouse position
+            Point mousePos = e.GetPosition(null);
+            Vector diff = startPoint - mousePos;
+
+            //Start the drag-drop if mouse has moved far enough
+            if (e.LeftButton == MouseButtonState.Pressed && (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
+            {
+                //Initiate dragging the text from the textbox
+                DataRowView currentItem = songGrid.SelectedItem as DataRowView;
+                var current = currentItem.Row.ItemArray;
+                DragDrop.DoDragDrop(songGrid, current[0], DragDropEffects.Copy);
+            }
+        }
+
+        private void songGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //Store the mouse position
+            startPoint = e.GetPosition(null);
+        }
+
+        private void playListBox_Drop(object sender, DragEventArgs e)
+        {
+            string dataString = (string)e.Data.GetData(DataFormats.StringFormat);
+            int songId = Convert.ToInt32(dataString);
+
+            Song song = musicLibrary.GetSong(songId);
+
+            //Add this song to current selected playlist
+
+        }
+
+        //Check to see if current DragOver item is All Music or not
+        private void playListBox_DragOver(object sender, DragEventArgs e)
+        {
+
         }
     }
 }
