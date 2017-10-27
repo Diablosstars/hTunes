@@ -129,9 +129,6 @@
     <Resource Include="MusicNote.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="music.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="playlist.png" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MetalHand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="music.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

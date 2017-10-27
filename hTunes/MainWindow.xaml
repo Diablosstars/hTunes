@@ -38,7 +38,19 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <DataGrid Name="SongGrid" HorizontalAlignment="Left" Height="269" Margin="116,40,0,0" VerticalAlignment="Top" Width="391"/>
-        <ListBox Name="playListBox" HorizontalAlignment="Left" Margin="10,40,0,10" Width="101"/>
+        <DataGrid Name="songGrid" SelectionMode="Single" Height="269" Margin="116,40,10,0" VerticalAlignment="Top" Loaded="LoadGrid">
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <Border Background="AliceBlue">
+                        <StackPanel Orientation="Vertical" >
+                            <TextBlock Text="{Binding title}" VerticalAlignment="Center" />
+                            <Image Source="{Binding albumImage}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+
+        </DataGrid>
+        <ListBox  Name="playListBox" HorizontalAlignment="Left" Margin="10,40,0,10" Width="101" Loaded="LoadList" SelectionChanged="ListItemSelect"/>
     </Grid>
 </Window>
