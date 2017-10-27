@@ -22,8 +22,8 @@ namespace hTunes
     {
         public MainWindow()
         {
-            MusicLib musicLibrary = new MusicLib();
             InitializeComponent();
+            MusicLib musicLibrary = new MusicLib();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
