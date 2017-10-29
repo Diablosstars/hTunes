@@ -236,6 +236,7 @@ namespace hTunes
                 {
                     musicLibrary.DeletePlaylist(playlistName);
                     LoadList(sender, e);
+                    LoadGrid(sender, e);
                 }
                 
             }
