@@ -56,18 +56,22 @@ namespace hTunes
 
         private void ListItemSelect(object sender, SelectionChangedEventArgs e)
         {
-            if (playListBox.SelectedItem.ToString() == "All Music")
+            if (playListBox.SelectedItem != null)
             {
-                var AllMusic = musicLibrary.Songs;
-                songGrid.ItemsSource = AllMusic.DefaultView;
-            }
-            else
-            {
-                var selectedPlaylist = playListBox.SelectedItem.ToString();
-                var songs = musicLibrary.SongsForPlaylist(selectedPlaylist);
+                if (playListBox.SelectedItem.ToString() == "All Music")
+                {
+                    var AllMusic = musicLibrary.Songs;
+                    songGrid.ItemsSource = AllMusic.DefaultView;
+                }
+                else
+                {
+                    var selectedPlaylist = playListBox.SelectedItem.ToString();
+                    var songs = musicLibrary.SongsForPlaylist(selectedPlaylist);
 
-                songGrid.ItemsSource = songs.DefaultView;
+                    songGrid.ItemsSource = songs.DefaultView;
+                }
             }
+            
         }
 
         private void Delete_Song(object sender, RoutedEventArgs e)
@@ -106,13 +110,16 @@ namespace hTunes
         {
             DataRowView currentItem = songGrid.SelectedItem as DataRowView;
             string songFilePath = (string)currentItem["filename"];
+            _mediaPlayer.Stop();
             _mediaPlayer.Open(new Uri(songFilePath));
             _mediaPlayer.Play();
         }
 
         private void New_Playlist(object sender, RoutedEventArgs e)
         {
-
+            //create new empty playlist
+            musicLibrary.AddPlaylist("New Playlist");
+            LoadList(sender, e);
         }
 
         private void Stop_Song(object sender, RoutedEventArgs e)
@@ -129,7 +136,19 @@ namespace hTunes
 
         private void RenamePlaylist_MenuItem(object sender, RoutedEventArgs e)
         {
-
+            if (playListBox.SelectedItem != null && playListBox.SelectedItem.ToString() != "All Music")
+            {
+                RenameWindow popup = new RenameWindow(playListBox.SelectedItem.ToString());
+                popup.ShowDialog();
+                popup.PlaylistName = popup.PlaylistName.Trim();
+                if (popup.PlaylistName != "All Music" 
+                    && playListBox.SelectedItem.ToString() != popup.PlaylistName)
+                {
+                    musicLibrary.RenamePlaylist(playListBox.SelectedItem.ToString(), popup.PlaylistName);
+                    LoadList(sender, e);
+                }
+            }
+            
         }
 
         private void songGrid_MouseMove(object sender, MouseEventArgs e)
@@ -143,8 +162,11 @@ namespace hTunes
             {
                 //Initiate dragging the text from the textbox
                 DataRowView currentItem = songGrid.SelectedItem as DataRowView;
-                var current = currentItem.Row.ItemArray;
-                DragDrop.DoDragDrop(songGrid, current[0], DragDropEffects.Copy);
+                if (currentItem != null)
+                {
+                    var current = currentItem.Row.ItemArray;
+                    DragDrop.DoDragDrop(songGrid, current[0], DragDropEffects.Copy);
+                }
             }
         }
 
