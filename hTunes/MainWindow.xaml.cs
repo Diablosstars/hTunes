@@ -200,10 +200,24 @@ namespace hTunes
             if (openFileDialog.ShowDialog() == true)
             {
                 string filePath = openFileDialog.FileName;
-                musicLibrary.AddSong(filePath);
+                Song s = musicLibrary.AddSong(filePath);
+                playListBox.SelectedItem = playListBox.Items[0];
+                songGrid.SelectedItem = songGrid.Items[0];
+                DataRowView currentItem = songGrid.SelectedItem as DataRowView;
+                int id = (int)currentItem["id"];
+
+                int index = 0;
+                while (id != s.Id)
+                {
+                    index++;
+                    songGrid.SelectedItem = songGrid.Items[index];
+                    currentItem = songGrid.SelectedItem as DataRowView;
+                    id = (int)currentItem["id"];
+                }
             }
-            playListBox.SelectedItem = playListBox.Items[0];
-            songGrid.SelectedItem = songGrid.Items[songGrid.Items.Count - 1];
+
+            
+            
         }
     }
 }

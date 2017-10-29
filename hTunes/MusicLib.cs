@@ -105,11 +105,13 @@ namespace hTunes
             };
 
             //GetSongData(s);
-
+           
             AddSong(s);
+            
             return s;
         }
 
+        
 
         /// <summary>
         /// Return a Song for the given song ID. Returns null if the song was not found.
