@@ -56,12 +56,14 @@ namespace hTunes
 
         private void ListItemSelect(object sender, SelectionChangedEventArgs e)
         {
+            songGrid.IsReadOnly = true;
             if (playListBox.SelectedItem != null)
             {
                 if (playListBox.SelectedItem.ToString() == "All Music")
                 {
                     var AllMusic = musicLibrary.Songs;
                     songGrid.ItemsSource = AllMusic.DefaultView;
+                    songGrid.IsReadOnly = false;
                 }
                 else
                 {
@@ -158,14 +160,15 @@ namespace hTunes
             Vector diff = startPoint - mousePos;
 
             //Start the drag-drop if mouse has moved far enough
-            if (e.LeftButton == MouseButtonState.Pressed && (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
+            if (e.LeftButton == MouseButtonState.Pressed 
+                && (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
             {
                 //Initiate dragging the text from the textbox
                 DataRowView currentItem = songGrid.SelectedItem as DataRowView;
                 if (currentItem != null)
                 {
                     var current = currentItem.Row.ItemArray;
-                    DragDrop.DoDragDrop(songGrid, current[0], DragDropEffects.Copy);
+                    DragDrop.DoDragDrop(songGrid, current[0].ToString(), DragDropEffects.Copy);
                 }
             }
         }
@@ -178,13 +181,13 @@ namespace hTunes
 
         private void playListBox_Drop(object sender, DragEventArgs e)
         {
+            TextBlock tb = e.Source as TextBlock;
+            string playListName = tb.Text;
             string dataString = (string)e.Data.GetData(DataFormats.StringFormat);
             int songId = Convert.ToInt32(dataString);
 
-            Song song = musicLibrary.GetSong(songId);
-
             //Add this song to current selected playlist
-
+            musicLibrary.AddSongToPlaylist(songId, playListName); 
         }
 
         //Check to see if current DragOver item is All Music or not
@@ -215,9 +218,27 @@ namespace hTunes
                     id = (int)currentItem["id"];
                 }
             }
+        }
 
-            
-            
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //save current stuff to file
+            musicLibrary.Save();
+        }
+
+        private void Delete_Playlist(object sender, RoutedEventArgs e)
+        {
+
+            if (playListBox.SelectedItem != null)
+            {
+                string playlistName = playListBox.SelectedItem.ToString();
+                if (playlistName != "All Music")
+                {
+                    musicLibrary.DeletePlaylist(playlistName);
+                    LoadList(sender, e);
+                }
+                
+            }
         }
     }
 }

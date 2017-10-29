@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:hTunes"
         mc:Ignorable="d"
+        Closing="Window_Closing"
         Title="hTunes" Height="350" Width="525">
-
+    <Window.Resources>
+        <ControlTemplate x:Key="ListItemTemplate" TargetType="ListBoxItem">
+            
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
         <ToolBar x:Name="toolBar" Height="35" VerticalAlignment="Top">
             <Button ToolTip="Open" Click="Open_File_Explorer">
@@ -76,13 +81,19 @@
             </DataGrid.RowDetailsTemplate>
         </DataGrid>
         <ListBox  Name="playListBox" HorizontalAlignment="Left" Margin="10,40,0,10" Width="101" Loaded="LoadList" 
-                  SelectionChanged="ListItemSelect" SelectedIndex="0" AllowDrop="True" Drop="playListBox_Drop" 
-                  DragOver="playListBox_DragOver">
+                  SelectionChanged="ListItemSelect" SelectedIndex="0" AllowDrop="True"  >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding}" AllowDrop="True" Drop="playListBox_Drop" DragOver="playListBox_DragOver"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <Menu>
                         <MenuItem Header="Rename" Click="RenamePlaylist_MenuItem"/>
-                        <MenuItem Header="Delete" Click="Delete_Song"/>
+                        <MenuItem Header="Delete" Click="Delete_Playlist"/>
                     </Menu>
                 </ContextMenu>
             </ListBox.ContextMenu>
