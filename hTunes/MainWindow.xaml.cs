@@ -202,7 +202,8 @@ namespace hTunes
                 string filePath = openFileDialog.FileName;
                 musicLibrary.AddSong(filePath);
             }
-
+            playListBox.SelectedItem = playListBox.Items[0];
+            songGrid.SelectedItem = songGrid.Items[songGrid.Items.Count - 1];
         }
     }
 }
