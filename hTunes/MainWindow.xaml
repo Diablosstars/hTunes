@@ -9,7 +9,7 @@
 
     <Grid>
         <ToolBar x:Name="toolBar" Height="35" VerticalAlignment="Top">
-            <Button ToolTip="Open">
+            <Button ToolTip="Open" Click="Open_File_Explorer">
                 <Image Source="Open-Folder-icon.png"/>
             </Button>
             <Button ToolTip="New Playlist" Click="New_Playlist">

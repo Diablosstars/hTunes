@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace hTunes
 {
@@ -23,9 +24,12 @@ namespace hTunes
     public partial class MainWindow : Window
     {
         MusicLib musicLibrary = new MusicLib();
+        private MediaPlayer _mediaPlayer;
+
         private Point startPoint;
         public MainWindow()
         {
+            _mediaPlayer = new MediaPlayer();
             InitializeComponent();
         }
 
@@ -100,7 +104,10 @@ namespace hTunes
 
         private void Play_Song(object sender, RoutedEventArgs e)
         {
-
+            DataRowView currentItem = songGrid.SelectedItem as DataRowView;
+            string songFilePath = (string)currentItem["filename"];
+            _mediaPlayer.Open(new Uri(songFilePath));
+            _mediaPlayer.Play();
         }
 
         private void New_Playlist(object sender, RoutedEventArgs e)
@@ -110,8 +117,9 @@ namespace hTunes
 
         private void Stop_Song(object sender, RoutedEventArgs e)
         {
-
+            _mediaPlayer.Stop();
         }
+
         //https://stackoverflow.com/questions/10238694/example-using-hyperlink-in-wpf
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
@@ -160,6 +168,18 @@ namespace hTunes
         //Check to see if current DragOver item is All Music or not
         private void playListBox_DragOver(object sender, DragEventArgs e)
         {
+
+        }
+
+        private void Open_File_Explorer(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Music Files ( *.mp3, *.m4a, *.wma, *.wav )|*.mp3;*.m4a;*.wma;*.wav;|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                musicLibrary.AddSong(filePath);
+            }
 
         }
     }
