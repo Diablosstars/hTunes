@@ -25,24 +25,6 @@
                 <Image Source="Info.png"/>
             </Button>
         </ToolBar>
-        <TextBox Background="AliceBlue" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="106" Padding="0,1" ScrollViewer.CanContentScroll="True" UseLayoutRounding="True" Height="18">
-            <TextBox.Style>
-                <Style TargetType="{x:Type TextBox}">
-                    <Setter Property="Text" Value="Search"/>
-                    <Setter Property="FontWeight" Value="Light"/>
-                    <Setter Property="FontSize" Value="8"/>
-
-                    <Style.Triggers>
-                        <Trigger Property="Control.IsFocused"
-                         Value="true">
-                            <Setter Property="Text" Value="{x:Null}"/>
-                            <Setter Property="FontWeight" Value="Normal"/>
-                            <Setter Property="FontSize" Value="10"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
         <DataGrid Name="songGrid" SelectionMode="Single" AutoGenerateColumns="False" CanUserAddRows="False" Margin="116,40,10,34" Loaded="LoadGrid" MouseMove="songGrid_MouseMove" PreviewMouseLeftButtonDown="songGrid_PreviewMouseLeftButtonDown">
             <DataGrid.ContextMenu>
                 <ContextMenu>
